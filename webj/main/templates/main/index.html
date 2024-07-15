@@ -1,9 +1,52 @@
-<!-- main/templates/index.html -->
 {% extends 'base.html' %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>Welcome to the Home Page</h1>
-<p>This is the home page content.</p>
+{% load static %}
+<img src="{% static 'images/background.png' %}" alt="Background" style="width: 100%; height: auto; position: absolute; top: 0; left: 0; z-index: -1;" id="background">
+<div class="container" style="position: relative; z-index: 1;">
+    <div class="centered-title">
+        <h1><a href="{% url 'new' %}" style="color: black; text-decoration: none;">СТЕНА</a></h1>
+        <p>Оставь надпись</p>
+    </div>
+    <div class="messages">
+        {% for message in messages %}
+            <div class="message" style="left: {{ message.x_position }}px; top: {{ message.y_position }}px;">
+                <span class="user-text">{{ message.text }}</span>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Добавим форму для создания новой надписи -->
+<div id="message-form" style="display: none; position: absolute; background: white; padding: 10px; border: 1px solid black;">
+    <form action="{% url 'new' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="x_position" id="x_position">
+        <input type="hidden" name="y_position" id="y_position">
+        <textarea name="text" rows="4" cols="50" placeholder="Введите ваш текст"></textarea>
+        <br>
+        <button type="submit">Отправить</button>
+        <button type="button" onclick="hideForm()">Отмена</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('background').addEventListener('click', function(event) {
+        var form = document.getElementById('message-form');
+        var x = event.offsetX;
+        var y = event.offsetY;
+        document.getElementById('x_position').value = x;
+        document.getElementById('y_position').value = y;
+        form.style.left = x + 'px';
+        form.style.top = y + 'px';
+        form.style.display = 'block';
+    });
+
+    function hideForm() {
+        document.getElementById('message-form').style.display = 'none';
+    }
+</script>
+
 {% endblock %}
