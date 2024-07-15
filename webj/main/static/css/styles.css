@@ -1,46 +1,41 @@
-@font-face {
-    font-family: 'KislicinGraffiti';
-    src: url('../fonts/KislicinGraffiti.otf') format('opentype');
-}
+/* main/static/styles.css */
 
-/* Основные стили */
+/* Установим фон и центрирование заголовка */
 body {
-    font-family: KislicinGraffiti, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
-}
-
-h1 {
-    text-align: center;
-    color: #343a40;
-}
-
-.container {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url('../images/background.png'); /* Путь к изображению */
+    background-size: cover;
+    background-position: center;
     height: 100vh;
+}
+
+header {
+    text-align: center;
+    margin-top: 20px;
+    color: white;
+}
+
+/* Стили для контента */
+.content {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    height: 100%;
+    position: relative;
 }
 
-.centered-title {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
+/* Стили для надписей */
 .message {
     position: absolute;
-    font-size: 18px;
-    color: #000;
-}
-
-/* Стили для текста пользователя */
-.user-text {
-    font-family: 'KislicinGraffiti', Arial, sans-serif;
-    font-size: 24px;
-    color: #ff0000;
-    text-shadow: 2px 2px #000;
-    background: none; /* Убираем белый фон */
+    color: black;
+    font-size: 20px;
+    font-family: 'KislicinGraffiti', sans-serif;
+    white-space: nowrap;
+    background: none; /* Убираем фон */
 }

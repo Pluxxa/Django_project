@@ -4,24 +4,24 @@
 {% block title %}New Message{% endblock %}
 
 {% block content %}
-{% load static %}
-<img src="{% static 'images/background.png' %}" alt="Background" style="width: 100%; height: auto; position: absolute; top: 0; left: 0; z-index: -1;" id="background">
-<div class="container mt-5" style="position: relative; z-index: 1;">
-    <h1 style="color: white;">Оставьте свою надпись на стене</h1>
-    <form method="post" id="messageForm">
+    <h2>Add a new message to the wall</h2>
+    <form action="{% url 'new' %}" method="post" class="message-form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Оставить надпись</button>
+        <label for="text">Message:</label>
+        <input type="text" id="text" name="text" required>
+        <input type="hidden" id="x_position" name="x_position" required>
+        <input type="hidden" id="y_position" name="y_position" required>
+        <p>Click on the wall to choose the position for your message.</p>
+        <button type="submit">Submit</button>
     </form>
-</div>
-
-<script>
-    document.getElementById('background').addEventListener('click', function(event) {
-        var rect = event.target.getBoundingClientRect();
-        var x = event.clientX - rect.left;
-        var y = event.clientY - rect.top;
-        document.getElementById('id_x_position').value = x;
-        document.getElementById('id_y_position').value = y;
-    });
-</script>
+    <script>
+        document.getElementById('wall').addEventListener('click', function(event) {
+            const wall = event.currentTarget;
+            const rect = wall.getBoundingClientRect();
+            const x = ((event.clientX - rect.left) / rect.width) * 100;
+            const y = ((event.clientY - rect.top) / rect.height) * 100;
+            document.getElementById('x_position').value = x.toFixed(2);
+            document.getElementById('y_position').value = y.toFixed(2);
+        });
+    </script>
 {% endblock %}
